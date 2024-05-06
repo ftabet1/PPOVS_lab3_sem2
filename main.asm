@@ -1,15 +1,62 @@
 	.def _c_int00
+	.mmregs
 	.text
 _c_int00:
 	ld	#d3n, dp
 	ssbx	frct
 	rsbx	ovm
-	orm	#1, pmst
+	orm	#1, PMST
 	stm	#d3n, ar2
 	rptz	A, #8
 	stl	A, *ar2+
 	
+	stm	#511, ar1
+	stm	#yn, ar3
+	stm	#xn, ar4
+loop:	
+	;d1(n)
+	ld	*ar4+, 16, A
+	ld	d1nm1, T
+	mas	b11, A
+	mas	b11, A
+	ld	d1nm2, T
+	masr	b21, A
+	sth	A, d1n
+	;y1(n)
+	mpy	a21, A
+	ltd	d1nm1
+	mac	a11, A
+	ltd	d1n
+	mac	a01, A
+	;d2(n)
+	ld	d2nm1, T
+	mas	b12, A
+	mas	b12, A
+	ld	d2nm2, T
+	masr	b22, A
+	sth	A, d2n
+	;y2(n)
+	mpy	a22, A
+	ltd	d2nm1
+	mac	a12, A
+	ltd	d2n
+	mac	a02, A
+	;d3(n)
+	ld	d3nm1, T
+	mas	b13, A
+	mas	b13, A
+	ld	d3nm2, T
+	masr	b23, A
+	sth	A, d3n
+	;y(n)
+	mpy	a23, A
+	ltd	d3nm1
+	mac	a13, A
+	ltd	d3n
+	mac	a03, A
 	
+	sth	a, *ar3+
+	banz	loop, *ar1-
 	.align
 	.data
 ;----------------------------------
