@@ -39,7 +39,7 @@ _c_int00:
 	rptz	A, #8
 	stl	A, *ar2+
 	
-	stm	#511, ar1
+	stm	#N, ar1
 	stm	#yn, ar3
 	stm	#xn, ar4
 loop_iir:	
@@ -156,6 +156,7 @@ calc_harm:
   		mpy *AR2, *AR4, B	;B =  cos(a) * cos(an)
   		masr *AR3, *AR5, B	;B -= sin(a) * sin(an)
   		sth A, *AR5 	;save Sn
+  		add #1, 16, B
   		sth B, *AR4 	;save Cn
   	banz calc_harm, *AR1-	;loop
   
@@ -219,15 +220,15 @@ b13	.word	0x41A5 ;x2
 b23	.word	0x6DF4
 ;----------------------------------
 
+N 	 .set  	2048	;number of sine tick's
 
 ;----------------------------------
 ;*************signals**************
-xn	.space (512*16)
-yn	.space (512*16)
+xn	.space (N*16)
+yn	.space (N*16)
 ;----------------------------------
 
-N 	 .set  	512	;number of sine tick's
-gar 	 .set 	0x000F	;harm. number	
+gar 	 .set 	0x000D	;harm. number	
 temp	 .word	0x0000  ;temp for thmsng
 arg	 .word 	0x0405  ;sine argument value
 m	 .word	0x0000	;m-value to calculate sin(a) value
