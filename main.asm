@@ -28,10 +28,10 @@ _c_int00:
   	
   	;init calc_sig args
   	stm #xn, AR6	;AR6 - signal array pointer
-  	stm #N-1, AR1	;AR1 - counter reg.; Number of tick's
+  	stm #N-1536, AR1	;AR1 - counter reg.; Number of tick's
   	call calc_sig	;call
 	
-	rsbx	ovm
+	ssbx	ovm
 	nop
 	
 	;start iir
@@ -47,6 +47,7 @@ loop_iir:
 	ld	*ar4+, 16, A
 	ld	d1nm1, T
 	mas	b11, A
+	nop
 	mas	b11, A
 	ld	d1nm2, T
 	masr	b21, A
@@ -60,6 +61,7 @@ loop_iir:
 	;d2(n)
 	ld	d2nm1, T
 	mas	b12, A
+	nop
 	mas	b12, A
 	ld	d2nm2, T
 	masr	b22, A
@@ -73,6 +75,7 @@ loop_iir:
 	;d3(n)
 	ld	d3nm1, T
 	mas	b13, A
+	nop
 	mas	b13, A
 	ld	d3nm2, T
 	masr	b23, A
@@ -82,7 +85,7 @@ loop_iir:
 	ltd	d3nm1
 	mac	a13, A
 	ltd	d3n
-	mac	a03, A
+	macr	a03, A
 	
 	sth	a, *ar3+
 	banz	loop_iir, *ar1-
@@ -228,9 +231,9 @@ xn	.space (N*16)
 yn	.space (N*16)
 ;----------------------------------
 
-gar 	 .set 	0x000D	;harm. number	
+gar 	 .set 	0x0014 ;arm. number	
 temp	 .word	0x0000  ;temp for thmsng
-arg	 .word 	0x0405  ;sine argument value
+arg	 .word 	0x141b  ;sine argument value
 m	 .word	0x0000	;m-value to calculate sin(a) value
 S1 	 .word  0x0000  ;sin(a) const. value
 C1 	 .word  0x0000	;cos(a) const. value
