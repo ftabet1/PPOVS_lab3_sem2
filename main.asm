@@ -19,15 +19,47 @@ _c_int00:
   	call calc_arg
   	
   	;init calc_harm args
+  	st  #0,  Sn
+  	st  #0x7FFF, Cn
   	stm #C1, AR2	;AR2 - const cos(a)
   	stm #S1, AR3	;AR3 - const sin(a)
   	stm #Cn, AR4	;AR4 - current cos(a+nk) tick
   	stm #Sn, AR5	;AR5 - current sin(a+nk) tick
-  	stm #gar-1, AR1	;AR1 - counter reg.; Harmonic count value
+  	stm #10, AR1	;AR1 - counter reg.; Harmonic count value
   	call calc_harm	;call
   	
   	;init calc_sig args
   	stm #xn, AR6	;AR6 - signal array pointer
+  	stm #N-1536, AR1	;AR1 - counter reg.; Number of tick's
+  	call calc_sig	;call
+  	
+  	;init calc_harm args
+  	st  #0,  Sn
+  	st  #0x7FFF, Cn
+  	stm #C1, AR2	;AR2 - const cos(a)
+  	stm #S1, AR3	;AR3 - const sin(a)
+  	stm #Cn, AR4	;AR4 - current cos(a+nk) tick
+  	stm #Sn, AR5	;AR5 - current sin(a+nk) tick
+  	stm #11, AR1	;AR1 - counter reg.; Harmonic count value
+  	call calc_harm	;call
+  	
+  	;init calc_sig args
+  	stm #xn2, AR6	;AR6 - signal array pointer
+  	stm #N-1536, AR1	;AR1 - counter reg.; Number of tick's
+  	call calc_sig	;call
+  	
+  	;init calc_harm args
+  	st  #0,  Sn
+  	st  #0x7FFF, Cn
+  	stm #C1, AR2	;AR2 - const cos(a)
+  	stm #S1, AR3	;AR3 - const sin(a)
+  	stm #Cn, AR4	;AR4 - current cos(a+nk) tick
+  	stm #Sn, AR5	;AR5 - current sin(a+nk) tick
+  	stm #20, AR1	;AR1 - counter reg.; Harmonic count value
+  	call calc_harm	;call
+  	
+  	;init calc_sig args
+  	stm #xn3, AR6	;AR6 - signal array pointer
   	stm #N-1536, AR1	;AR1 - counter reg.; Number of tick's
   	call calc_sig	;call
 	
@@ -227,7 +259,10 @@ N 	 .set  	2048	;number of sine tick's
 
 ;----------------------------------
 ;*************signals**************
-xn	.space (N*16)
+xn	.space (512*16)
+xn2	.space (512*16)
+xn3	.space (512*16)
+xn4	.space (512*16)
 yn	.space (N*16)
 ;----------------------------------
 
