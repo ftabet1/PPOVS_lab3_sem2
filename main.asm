@@ -232,6 +232,8 @@ calc_sig:
   		sth A, *AR5 ;Sn
   		sth B, *AR4 ;Cn
   	banz calc_sig, *AR1-	;loop
+  	st #0, *AR5		;reset sin(0) value
+  	st #0x7FFF, *AR4	;reset cos(0) value
   	RET
 ;calc_sig func. end 
 
