@@ -26,7 +26,7 @@ _c_int00:
   	stm #S1, AR3	;AR3 - const sin(a)
   	stm #Cn, AR4	;AR4 - current cos(a+nk) tick
   	stm #Sn, AR5	;AR5 - current sin(a+nk) tick
-  	stm #10, AR1	;AR1 - counter reg.; Harmonic count value
+  	stm #45, AR1	;AR1 - counter reg.; Harmonic count value
   	call calc_harm	;call
   	
   	;init calc_sig args
@@ -50,7 +50,7 @@ _c_int00:
   	stm #S1, AR3	;AR3 - const sin(a)
   	stm #Cn, AR4	;AR4 - current cos(a+nk) tick
   	stm #Sn, AR5	;AR5 - current sin(a+nk) tick
-  	stm #20, AR1	;AR1 - counter reg.; Harmonic count value
+  	stm #63, AR1	;AR1 - counter reg.; Harmonic count value
   	call calc_harm	;call
   	
   	;init calc_sig args
@@ -74,7 +74,7 @@ _c_int00:
   	stm #S1, AR3	;AR3 - const sin(a)
   	stm #Cn, AR4	;AR4 - current cos(a+nk) tick
   	stm #Sn, AR5	;AR5 - current sin(a+nk) tick
-  	stm #1, AR1	;AR1 - counter reg.; Harmonic count value
+  	stm #180, AR1	;AR1 - counter reg.; Harmonic count value
   	call calc_harm	;call
   	
   	;init calc_sig args
@@ -228,9 +228,11 @@ calc_sig:
   		macr *AR2, *AR5, A	;A += cos(a) * sin(an)
 		mpy *AR2, *AR4, B	;B =  cos(a) * cos(an)
 		masr *AR3, *AR5, B	;B -= sin(a) * sin(an)
-  		sth A, *AR6+		;save current sine value
-  		sth A, *AR5 ;Sn
+		sth A, *AR5 ;Sn
   		sth B, *AR4 ;Cn
+		sfta A, #-4
+  		sth A, *AR6+		;save current sine value
+  	
   	banz calc_sig, *AR1-	;loop
   	st #0, *AR5		;reset sin(0) value
   	st #0x7FFF, *AR4	;reset cos(0) value
@@ -289,7 +291,7 @@ yn	.space (N*16)
 
 gar 	 .set 	0x0014 ;arm. number	
 temp	 .word	0x0000  ;temp for thmsng
-arg	 .word 	0x141b  ;sine argument value
+arg	 .word 	0x0405  ;sine argument value
 m	 .word	0x0000	;m-value to calculate sin(a) value
 S1 	 .word  0x0000  ;sin(a) const. value
 C1 	 .word  0x0000	;cos(a) const. value
